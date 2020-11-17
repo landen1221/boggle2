@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block title %} Play Boggle! {% endblock %}
+
+{% block content %} 
+<h1 class="m-4 mb-0 d-inline" id="title">Play Boggle!</h1><br>
+<h4 class="mt-1 d-inline">Time Remaining:</h4> <h4 class="mt-1 d-inline" id="counter">60</h4>
+
+<table class="table table-bordered col-sm-6 mx-auto pb-0 mb-0">
+    <tbody>
+        {% for row in curr_game %}
+            <tr>
+            {% for letter in row %}
+                <td class="p-1">{{letter}}</td>
+            {% endfor %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+    
+    <form action="/word-check" id='word-form' method="POST" class="d-inline">
+        <input type="text" id="word" name="word" autofocus="autofocus" placeholder="Found Word" required>
+        <button  type="submit" id="add-word" class="btn btn-primary btn-sm m-3">Add</button>
+    </form>
+
+    <form action="/restart" class="d-inline">
+        <button type="submit" class="tn btn-danger btn-sm m-2">Restart</button>
+    </form>
+
+    <hr>
+    <h5>(Current Score: {{session['score']}} || High Score: {{session['high-score']}})</h5>
+    <h3>Found Words</h3> 
+    <div class="row justify-content-md-center">
+        <ol class="col-sm-1">
+        {% for word in session['found_words'] %}
+            <li>{{word}}</li>
+        {% endfor %}
+    </div>
+    </ol>
+    
+
+{% endblock %}

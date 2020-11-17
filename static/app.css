@@ -1,0 +1,38 @@
+h1 {
+    color: maroon;
+}
+
+table {
+    table-layout: fixed;
+    width: 75px;
+}
+
+tr {
+    line-height: 75px;
+    min-height: 75px;
+    height: 75px;
+ }
+
+td {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+
+table.table-bordered > tbody > tr > td{
+    border:2px solid teal;
+}
+
+h3 {
+    text-decoration: underline;
+}
+
+h5 {
+    font-weight: normal;
+}
+
+h4 {
+    color: darkgray;
+    font-weight: normal;
+    margin-top: 5px;
+}
