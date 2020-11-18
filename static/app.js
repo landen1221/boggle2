@@ -1,36 +1,38 @@
-// document.getElementById('add-word').addEventListener("click", function(evt) {
-//     evt.preventDefault()
-// });
+let score = 0
+
+$('#word-form').submit(function(evt) {
+    evt.preventDefault();
+    let word = $('#word').val();
+
+    newWord = document.createElement('li')
+    newWord.innerText = word
+    
+    console.log(word)
 
 
+    const resp = await axios.get("/check-word", { params: { word: word }});
 
 
-// $('#word-form').submit(function(evt) {
-//     evt.preventDefault();
-//     let word = $('#word').val();
+    document.getElementById('foundWords').appendChild(newWord)
 
-//     console.log(word)
+})
 
-// })
+let timer;
+let count = 60;
 
-// let timer;
-// let count = document.getElementById('counter');
+$("#counter").text(count);
+//update display
 
-// $("#counter").text(count);
-// //update display
-
-// timer = setTimeout(update, 1000);
-// //this allows for 'clearTimeout' if needed
-
-// function update()
-// {
-//     if (count > 0)
-//     {
-//        $("#counter").text(--count);
-//        timer = setTimeout(update, 1000);
-//     }
-//     else
-//     {
-//         alert("Time's Up!!!");
-//     }
-// }
+timer = setTimeout(update, 1000);
+function update()
+{
+    if (count > 0)
+    {
+       $("#counter").text(--count);
+       timer = setTimeout(update, 1000);
+    }
+    else
+    {
+        alert("Time's Up!!!");
+    }
+}

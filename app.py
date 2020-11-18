@@ -1,13 +1,8 @@
 from boggle import Boggle
 from flask import Flask, request, render_template, redirect, flash, jsonify, session
 
-from flask_debugtoolbar import DebugToolbarExtension
-
 app = Flask(__name__)
 app.config['SECRET_KEY'] = "secretKey"
-
-debug = DebugToolbarExtension(app)
-app.config["DEBUG_TB_INTERCEPT_REDIRECTS"] = False
 
 boggle_game = Boggle()
 word_dict = boggle_game.read_dict('words.txt')
@@ -19,10 +14,6 @@ high_score = 0
 
 @app.route('/')
 def home_page():
-    return render_template('index.html')
-
-@app.route('/play-boggle')
-def setup_board():
     global high_score
     if tries == 0:
         setup_game()
@@ -30,8 +21,10 @@ def setup_board():
         session['high-score'] = session['score']
         high_score = session['score']
     print(session)
-    return render_template('play-boggle.html', curr_game=session['curr_game'])
+    return render_template('index.html', curr_game=session['curr_game'])
 
+
+### Likely 
 @app.route('/word-check', methods=['POST'])
 def check_word_validity():
     curr_word = request.form['word']
@@ -46,7 +39,7 @@ def check_word_validity():
     elif result == 'ok':
         words_found.append(curr_word)
         session['found_words'] = words_found
-        session['score'] += len(result)
+        session['score'] += len(curr_word)
         print(f'result = {result}')
         print(f'length = {len(result)}')
         
@@ -55,13 +48,11 @@ def check_word_validity():
     
     elif result == "not-word":
         flash("Your word is not a valid word")
-    
-    
     else:
         flash("nothing entered")
     
     print(session)
-    return redirect('/play-boggle')
+    return redirect('/')
 
 @app.route('/restart')
 def restart_game():
@@ -70,8 +61,7 @@ def restart_game():
     score = 0
     words_found = []
     
-    return redirect('/play-boggle')
-
+    return redirect('/')
 
 def setup_game():
     curr_game = boggle_game.make_board()

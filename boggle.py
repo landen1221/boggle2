@@ -23,7 +23,8 @@ class Boggle():
         board = []
 
         for y in range(5):
-            row = [choice(string.ascii_uppercase) for i in range(5)]
+            letters = string.ascii_uppercase + 'AEIOU'
+            row = [choice(letters) for i in range(5)]
             board.append(row)
 
         return board
