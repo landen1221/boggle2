@@ -1,27 +1,33 @@
-let score = 0
-
-$('#word-form').submit(function(evt) {
+$('#word-form').submit(async function(evt) {
     evt.preventDefault();
     let word = $('#word').val();
-
-    newWord = document.createElement('li')
-    newWord.innerText = word
+    const resp = await axios.post("/check-word", {word});
     
-    console.log(word)
+    console.log(word)  
+    console.log(resp)
+    console.log(`resp data = ${resp.data.result}`)
 
-
-    const resp = await axios.get("/check-word", { params: { word: word }});
-
-
-    document.getElementById('foundWords').appendChild(newWord)
+    // If 'ok' Add word to list
+    if (resp.data.result === 'ok') {
+        newWord = document.createElement('li')
+        newWord.innerText = word
+        document.getElementById('foundWords').appendChild(newWord)
+        $('#word').val('')
+    } else {
+        alert(resp.data.message)
+    }
+    
+    // Update score
+    console.log(resp.data.score)
+    document.getElementById('score').innerText = resp.data.score
+    document.getElementById('high-score').innerText = resp.data.highScore
+    
 
 })
 
 let timer;
-let count = 60;
-
+let count = 45;
 $("#counter").text(count);
-//update display
 
 timer = setTimeout(update, 1000);
 function update()
@@ -34,5 +40,6 @@ function update()
     else
     {
         alert("Time's Up!!!");
+        location.reload();
     }
 }
